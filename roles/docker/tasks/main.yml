@@ -9,7 +9,13 @@
   become_user: root
   apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-trusty main"
 
-- name: Install Docker
+- name: Get the uname
+  command: "uname -r"
+  register: uname
+
+- debug: var=uname
+
+- name: Install Dependencies and Docker
   become: yes
   become_user: root
   apt: update_cache=yes name={{ item }}
@@ -17,9 +23,8 @@
     - apt-transport-https
     - ca-certificates
     - curl
-    - linux-image-extra-*
-    - linux-image-generic-lts-trusty
-    - linux-headers-generic-lts-trusty
+    - linux-image-extra-virtual
+    - linux-image-extra-{{uname.stdout}}
     - apparmor
     - docker-engine
 
