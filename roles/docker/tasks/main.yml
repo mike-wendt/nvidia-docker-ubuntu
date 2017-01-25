@@ -13,8 +13,6 @@
   command: "uname -r"
   register: uname
 
-- debug: var=uname
-
 - name: Install Dependencies and Docker
   become: yes
   become_user: root
