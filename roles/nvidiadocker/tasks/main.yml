@@ -7,5 +7,5 @@
   become: yes
   become_user: root
 
-- name: Run the cljs test
-  command: nvidia-docker run --rm graphistry/cljs:1.1 npm test
+- name: Run the nvidia-smi test
+  command: nvidia-docker run --rm nvidia/cuda nvidia-smi
