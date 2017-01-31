@@ -8,4 +8,4 @@
   become_user: root
 
 - name: Run the nvidia-smi test
-  command: nvidia-docker run --rm nvidia/cuda nvidia-smi
+  command: nvidia-docker run --rm nvidia/cuda:7.0-runtime nvidia-smi
