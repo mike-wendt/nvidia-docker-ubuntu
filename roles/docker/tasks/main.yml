@@ -34,4 +34,4 @@
 - name: Verify docker is installed correctly
   become: yes
   become_user: root
-  command: docker run hello-world
+  command: docker run --rm hello-world
