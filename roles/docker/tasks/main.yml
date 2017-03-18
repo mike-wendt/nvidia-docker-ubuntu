@@ -34,7 +34,7 @@
   apt: update_cache=yes name=docker-ce
 
 - name: Start the docker daemon
-  service: name=docker state=started
+  service: name=docker state=restarted
 
 - name: Verify docker is installed correctly
   command: docker run --rm hello-world
