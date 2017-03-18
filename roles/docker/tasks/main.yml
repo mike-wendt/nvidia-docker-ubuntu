@@ -1,21 +1,20 @@
 ---
-- name: Add Docker GPG key
-  become: yes
-  become_user: root
-  apt_key: keyserver=p80.pool.sks-keyservers.net id=58118E89F3A912897C070ADBF76221572C52609D
+- name: Remove existing Docker installation
+  apt: name={{ item }} state=absent
+  with_items:
+    - docker
+    - docker-engine
+    - docker-ce
 
-- name: Create a list file for Docker
-  become: yes
-  become_user: root
-  apt_repository: repo="deb https://apt.dockerproject.org/repo ubuntu-trusty main"
-
-- name: Get the uname
+- name: Get the kernel version
   command: "uname -r"
   register: uname
 
-- name: Install Dependencies and Docker
-  become: yes
-  become_user: root
+- name: Get the release version
+  command: "lsb_release -cs"
+  register: release
+
+- name: Install dependencies
   apt: update_cache=yes name={{ item }}
   with_items:
     - apt-transport-https
@@ -23,15 +22,19 @@
     - curl
     - linux-image-extra-virtual
     - linux-image-extra-{{uname.stdout}}
-    - apparmor
-    - docker-engine
+    - software-properties-common
+
+- name: Add Docker GPG key
+  apt_key: url="https://download.docker.com/linux/ubuntu/gpg"
+
+- name: Add Docker apt repository
+  apt_repository: repo="deb [arch=amd64] https://download.docker.com/linux/ubuntu {{release.stdout}} stable"
+
+- name: Install Docker CE
+  apt: update_cache=yes name=docker-ce
 
 - name: Start the docker daemon
-  become: yes
-  become_user: root
   service: name=docker state=started
 
 - name: Verify docker is installed correctly
-  become: yes
-  become_user: root
   command: docker run --rm hello-world
