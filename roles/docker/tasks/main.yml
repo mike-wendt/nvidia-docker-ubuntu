@@ -5,6 +5,8 @@
     - docker
     - docker-engine
     - docker-ce
+    - nvidia-docker
+    - nvidia-docker2
 
 - name: Get the kernel version
   command: "uname -r"

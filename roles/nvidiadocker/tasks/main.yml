@@ -1,9 +1,20 @@
 ---
-- name: Get the latest release of nvidia-docker
-  get_url: "dest=/tmp/nvidia-docker.deb url=https://github.com/NVIDIA/nvidia-docker/releases/download/v1.0.1/nvidia-docker_1.0.1-1_amd64.deb"
+- name: Add gpg key
+  apt_key:
+    url: https://nvidia.github.io/nvidia-docker/gpgkey
+
+- name: Add nvidia-docker sources list
+  get_url:
+    url: https://nvidia.github.io/nvidia-docker/ubuntu16.04/amd64/nvidia-docker.list
+    dest: /etc/apt/sources.list.d/nvidia-docker.list
 
 - name: Install nvidia-docker
-  command: dpkg -i /tmp/nvidia-docker.deb
+  apt:
+    name: nvidia-docker2
+    update_cache: yes 
+
+- name: Reload Docker daemon configuration
+  command: pkill -SIGHUP dockerd
 
 - name: Run the nvidia-smi test
-  command: nvidia-docker run --rm nvidia/cuda:7.0-runtime nvidia-smi
+  command: docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi
