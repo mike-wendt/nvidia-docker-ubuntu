@@ -26,12 +26,12 @@ echo 'localhost ansible_connection=local' | sudo tee /etc/ansible/hosts
 
 Run the following command
 ```
-sudo ansible-pull -U https://github.com/kkraus14/nvidia-docker-ubuntu.git 
+sudo ansible-pull -U https://github.com/mike-wendt/nvidia-docker-ubuntu.git 
 ```
 
 ### Running Locally
 
-1. Clone this repo locally <br>`git clone https://github.com/kkraus14/nvidia-docker-ubuntu.git`
+1. Clone this repo locally <br>`git clone https://github.com/mike-wendt/nvidia-docker-ubuntu.git`
 2. Change directory <br>`cd nvidia-docker-ubuntu`
 3. Run the Ansible script <br>`sudo ansible-playbook local.yml`
 
