@@ -23,7 +23,6 @@
     - ca-certificates
     - curl
     - linux-image-extra-virtual
-    - linux-image-extra-{{uname.stdout}}
     - software-properties-common
 
 - name: Add Docker GPG key
